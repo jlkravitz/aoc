@@ -3,7 +3,19 @@ use regex::Regex;
 advent_of_code::solution!(1);
 
 pub fn part_one(input: &str) -> Option<u32> {
-    None
+    let re = Regex::new(r"\d").unwrap();
+    Some(
+        input
+            .split('\n')
+            .map(|line| {
+                let mut it = re.find_iter(line);
+                let first = it.next().unwrap();
+                format!("{}{}", first.as_str(), it.last().unwrap_or(first).as_str())
+                    .parse::<u32>()
+                    .unwrap()
+            })
+            .sum::<u32>(),
+    )
 }
 
 pub fn part_two(input: &str) -> Option<u32> {
